@@ -7,11 +7,15 @@ services:
             - "8000:8000"
         depends_on:
             - db
+        volumes: # images
+            - ./images:/app/images
         environment:
-            - DATABASE_URL=postgres://postgres:password@db:5432/postgres
+            - DATABASE_URL=postgresql://postgres:password@db:5432/postgres
 
     db:
         image: postgres:latest
+        ports:
+            - "5432:5432"
         environment:
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: password
