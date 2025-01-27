@@ -3,8 +3,6 @@ from api.models.patient_model import Patient
 from sqlalchemy.exc import IntegrityError
 from api.exceptions.invalid_input_exception import InvalidInputException
 from api.helpers.image_uploader import upload_image
-import os
-import shutil
 
 def create_patient(name: str, email_address: str, phone_number: str, image: UploadFile, db):
     image_path = upload_image(image)

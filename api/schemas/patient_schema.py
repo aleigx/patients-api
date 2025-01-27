@@ -1,20 +1,20 @@
-from pydantic import BaseModel, Field, validator
-from typing import Optional
+from pydantic import BaseModel, Field, field_validator
 from fastapi import Form, UploadFile, File
 from api.exceptions.invalid_input_exception import InvalidInputException
+
 
 class PatientCreate(BaseModel):
     name: str = Field(..., min_length=3, max_length=64)
     email_address: str = Field(..., min_length=3, max_length=64)
     phone_number: str = Field(..., min_length=3, max_length=15)
     
-    @validator("phone_number")
+    @field_validator("phone_number")
     def validate_phone_number(cls, value):
         if not value.isdigit():
-            raise InvalidInputException("Phone number must contain only digits.")
+            raise InvalidInputException("Phone number must be valid.")
         return value
-    
-    @validator("email_address")
+
+    @field_validator("email_address")
     def validate_email_address(cls, value):
         if "@" not in value:
             raise InvalidInputException("Email address must be valid.")

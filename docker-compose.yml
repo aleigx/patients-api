@@ -7,7 +7,7 @@ services:
             - "8000:8000"
         depends_on:
             - db
-        volumes: # images
+        volumes:
             - ./images:/app/images
         environment:
             - DATABASE_URL=postgresql://postgres:password@db:5432/postgres
