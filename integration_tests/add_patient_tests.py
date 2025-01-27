@@ -1,13 +1,14 @@
-import requests
 import unittest
 import os
 import uuid
-
-BASE_URL = "http://localhost:8000/api/patients"
+from fastapi.testclient import TestClient
+os.environ["DATABASE_URL"] = "postgresql://postgres:password@localhost:5432/postgres"
+from api.main import app
 
 class TestAddPatient(unittest.TestCase):
 
     def setUp(self):
+        self.client = TestClient(app)
         with open("test.jpg", "wb") as f:
             f.write(b"fake_image_data")
 
@@ -18,8 +19,7 @@ class TestAddPatient(unittest.TestCase):
             "email_address": f"{guid}@test.com",
             "phone_number": "1234567890",
         }
-        response = requests.post(BASE_URL, data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
-        print(response.json())
+        response = self.client.post("/api/patients/", data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
         self.assertEqual(response.status_code, 201)
         self.assertIn("id", response.json())
 
@@ -29,7 +29,7 @@ class TestAddPatient(unittest.TestCase):
             "email_address": "testtest.com",
             "phone_number": "1234567890",
         }
-        response = requests.post(BASE_URL, data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
+        response = self.client.post("/api/patients/", data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
         self.assertEqual(response.status_code, 400)
 
     def test_add_patient_invalid_phone(self):
@@ -38,7 +38,7 @@ class TestAddPatient(unittest.TestCase):
             "email_address": "test@test.com",
             "phone_number": "123-456-7890",
         }
-        response = requests.post(BASE_URL, data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
+        response = self.client.post("/api/patients/", data=payload, files={"image": ("test.jpg", open("test.jpg", "rb"), "image/jpeg")})
         self.assertEqual(response.status_code, 400)
 
     def tearDown(self):
