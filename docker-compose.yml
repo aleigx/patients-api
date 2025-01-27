@@ -10,7 +10,10 @@ services:
         volumes:
             - ./images:/app/images
         environment:
-            - DATABASE_URL=postgresql://postgres:password@db:5432/postgres
+            DATABASE_URL: postgresql://postgres:password@db:5432/postgres
+            EMAIL_USER: testing.email.ale@gmail.com
+            EMAIL_PASSWORD: 
+            PYTHONUNBUFFERED: 1
 
     db:
         image: postgres:latest
