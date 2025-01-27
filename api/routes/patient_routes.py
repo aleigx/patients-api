@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, BackgroundTasks
 from api.schemas.patient_schema import PatientCreate, parse_form_data
 from api.services.patients_service import create_patient
-from pydantic import EmailStr
 from api.db.database import get_db
 from api.notification_senders.notifications_handler import handle_notifications
 

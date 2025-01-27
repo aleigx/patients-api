@@ -1,4 +1,4 @@
-from fastapi import UploadFile, File
+from fastapi import UploadFile
 from api.models.patient_model import Patient
 from sqlalchemy.exc import IntegrityError
 from api.exceptions.invalid_input_exception import InvalidInputException
