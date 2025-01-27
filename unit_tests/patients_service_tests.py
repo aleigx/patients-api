@@ -2,9 +2,6 @@ import unittest
 from unittest.mock import MagicMock, patch
 from fastapi import UploadFile
 from sqlalchemy.exc import IntegrityError
-import os
-with patch.dict(os.environ, {"DATABASE_URL": "sqlite:///./test.db"}):
-    from api.models.patient_model import Patient
 from api.services.patients_service import create_patient
 from api.exceptions.invalid_input_exception import InvalidInputException
 
